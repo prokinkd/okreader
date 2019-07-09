@@ -54,12 +54,21 @@ Note: The build system is intended to run on Debian or Ubuntu, on ARM. Cross-bui
 
 Install build dependencies:
 
+    sudo apt-get update
     sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap curl coreutils xz-utils
 
 Fetch all resources:
 
-    git clone https://github.com/lgeek/okreader.git
+    git clone git@github.com:prokinkd/okreader.git
+
+or
+
+    git clone https://github.com/prokinkd/okreader.git
+
     cd okreader
+
+Warning: If you are not authenticated to GitHub with your git setup, you will need to replace `git@github.com:` occurences with `https://github.com/` in `.gitmodules` file before working with submodules.
+
     git submodule init
     git submodule update
     ./fetch.sh all
