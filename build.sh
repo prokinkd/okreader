@@ -76,6 +76,7 @@ compile_uboot() {
 
 compile_linux_image_imx5() {
   export ARCH=arm
+  export CROSS_COMPILE=../gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
   cd src/linux
   make mx50_kobo_defconfig
   make -j$(($(nproc)+1)) uImage
@@ -84,6 +85,7 @@ compile_linux_image_imx5() {
 
 compile_linux_image_imx6() {
   export ARCH=arm
+  export CROSS_COMPILE=../gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
   cd src/linux-imx6
   make imx6s_ntx_alyssum_okreader_defconfig
   make -j$(($(nproc)+1)) uImage
@@ -92,6 +94,7 @@ compile_linux_image_imx6() {
 
 compile_linux_modules_imx5() {
   export ARCH=arm
+  export CROSS_COMPILE=../gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
   cd src/linux
   make -j$(($(nproc)+1)) modules
   cd ../../
@@ -118,6 +121,7 @@ compile_linux_modules_imx5() {
 
 compile_linux_modules_imx6() {
   export ARCH=arm
+  export CROSS_COMPILE=../gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
   cd src/linux-imx6
   make -j$(($(nproc)+1)) modules
   cd ../../

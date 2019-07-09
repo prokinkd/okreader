@@ -50,11 +50,11 @@ If you're looking to buy an ereader for use with okreader, I'd recommend getting
 Usage
 -----
 
-Note: The build system is intended to run on Debian or Ubuntu, on ARM. Cross-building should also be possible with little effort, but it's not implemented. If you don't have access to an ARM system, you could try using [QEMU](http://qemu.org).
+Note: The build system is intended to run on Debian or Ubuntu, on ARM. Cross-building is implemented for `linux-*` targets, and should also be possible with little effort, but it's not implemented for rest (`u-boot` and rootfs debootstrapping). If you don't have access to an ARM system, you could try using [QEMU](http://qemu.org).
 
 Install build dependencies:
 
-    sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap
+    sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap curl coreutils xz-utils
 
 Fetch all resources:
 

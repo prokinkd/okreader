@@ -23,7 +23,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-available_targets=("linux-backports-imx5" "linux-backports-imx6" "firmware-okreader")
+available_targets=("linux-backports-imx5" "linux-backports-imx6" "firmware-okreader" "linaro-toolchain")
 
 print_usage() {
   echo "Usage: fetch_sources.sh [TARGET]"
@@ -119,6 +119,12 @@ for target in ${targets[*]}; do
       fetch_and_verify https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git/plain/brcm/brcmfmac43362-sdio.bin?id=b794c5039dcf0b7ebfeb58929d035f7a1d4c80dd src/firmware-okreader/lib/firmware/brcm/brcmfmac43362-sdio.bin 5783fd90528cc7ae421b6a6056b1572a3840eac4559b26d299d1acae17523e42
 
       fetch_and_verify https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/LICENCE.broadcom_bcm43xx?id=b794c5039dcf0b7ebfeb58929d035f7a1d4c80dd src/firmware-okreader/lib/firmware/brcm/LICENCE.broadcom b16056fc91b82a0e3e8de8f86c2dac98201aa9dc3cbd33e8d38f1b087fcec30d
+      ;;
+      linaro-toolchain)
+      cd src
+      curl -L -O https://releases.linaro.org/components/toolchain/binaries/latest-5/arm-linux-gnueabihf/gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf.tar.xz -O https://releases.linaro.org/components/toolchain/binaries/latest-5/arm-linux-gnueabihf/gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf.tar.xz.asc
+      md5sum -c gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf.tar.xz.asc
+      tar -xf gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf.tar.xz
       ;;
   esac
 done

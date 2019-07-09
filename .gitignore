@@ -8,3 +8,4 @@ src/koreader-pkg/opt/
 src/kobo_hwconfig/pkg/usr/
 src/kobo_hwconfig/kobo_hwconfig
 src/kobo_hwconfig/*.deb
+src/gcc-linaro-5.5.0-2017.10-*_arm-linux-gnueabihf*
