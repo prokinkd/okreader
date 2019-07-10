@@ -68,6 +68,8 @@ parse_args() {
 }
 
 compile_uboot() {
+  export ARCH=arm
+  export CROSS_COMPILE=arm-none-eabi-
   cd src/u-boot
   make mx50_rdp_config
   make -j$(($(nproc)+1))

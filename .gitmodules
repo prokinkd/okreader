@@ -6,7 +6,7 @@
 	url = git@github.com:lgeek/koreader.git
 [submodule "src/u-boot"]
 	path = src/u-boot
-	url = git@github.com:lgeek/u-boot-okreader.git
+	url = git@github.com:prokinkd/u-boot-okreader.git
 [submodule "src/linux-imx6"]
 	path = src/linux-imx6
 	url = git@github.com:lgeek/linux-okreader.git
