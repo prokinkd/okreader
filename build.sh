@@ -191,6 +191,7 @@ compile_koreader() {
 }
 
 compile_kobo_hwconfig() {
+  CROSS_COMPILE=../gcc-linaro-5.5.0-2017.10-$(uname -m)_arm-linux-gnueabihf/bin/arm-linux-gnueabihf- \
   make pkg -C ./src/kobo_hwconfig/
 }
 
