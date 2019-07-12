@@ -117,7 +117,7 @@ compile_linux_modules_imx5() {
   cp linux/drivers/mmc/card/sdio_wifi_pwr.ko linux-okreader-modules-imx5/lib/modules/2.6.35.3-850-gbc67621+/
   cp linux/drivers/usb/gadget/arcotg_udc.ko linux-okreader-modules-imx5/lib/modules/2.6.35.3-850-gbc67621+/
   
-  dpkg-deb -b linux-okreader-modules-imx5 .
+  dpkg-deb -Z gzip -b linux-okreader-modules-imx5 .
   cd ..
 }
 
@@ -143,13 +143,13 @@ compile_linux_modules_imx6() {
   cp linux-imx6/drivers/usb/gadget/g_file_storage.ko linux-okreader-modules-imx6/lib/modules/3.0.35/
   cp linux-imx6/drivers/mmc/card/sdio_wifi_pwr.ko linux-okreader-modules-imx6/lib/modules/3.0.35/
 
-  dpkg-deb -b linux-okreader-modules-imx6 .
+  dpkg-deb -Z gzip -b linux-okreader-modules-imx6 .
   cd ..
 }
 
 compile_firmware_okreader() {
   cd src
-  dpkg-deb -b firmware-okreader .
+  dpkg-deb -Z gzip -b firmware-okreader .
   cd ..
 }
 
@@ -186,7 +186,7 @@ compile_koreader() {
   chmod +x koreader/bin/ntpd
 
   cd ../../
-  dpkg-deb -b koreader-pkg .
+  dpkg-deb -Z gzip -b koreader-pkg .
   cd ../
 }
 
