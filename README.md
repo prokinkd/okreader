@@ -50,12 +50,12 @@ If you're looking to buy an ereader for use with okreader, I'd recommend getting
 Usage
 -----
 
-Note: The build system is intended to run on Debian or Ubuntu, on ARM. Cross-compilation is implemented for packages building, but rootfs preparation requires ARM system. If you don't have access to an ARM system, you could try using [QEMU](http://qemu.org).
+Note: The build system is intended to run on Debian or Ubuntu. Cross-compilation is implemented for packages building and `qemu-debootstrap` is used for rootfs creation.
 
-Install build dependencies:
+Install prerequisites:
 
     sudo apt-get update
-    sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap curl coreutils xz-utils gcc-arm-none-eabi
+    sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap curl coreutils xz-utils gcc-arm-none-eabi qemu-user-static debian-archive-keyring
 
 Fetch all resources:
 
@@ -81,7 +81,7 @@ Note, koreader dependecies require autoconf >= 2.65. You might have to manually 
 
     AUTOCONF=autoconf2.65 ./build.sh all
 
-Build outputs:
+Build artifacts:
 
     src/u-boot/u-boot.bin                       # U-Boot (bootloader) image (imx5-based devices)
     src/linux/arch/arm/boot/uImage              # Linux kernel image (imx5-based devices)

@@ -31,7 +31,7 @@ print_usage() {
 }
 
 check_dependencies() {
-  dpkg -s debian-archive-keyring debootstrap > /dev/null
+  dpkg -s debian-archive-keyring debootstrap qemu-user-static coreutils xz-utils > /dev/null
   if [ $? -ne 0 ] ; then
     echo
     echo "Error: Some dependencies appear to be missing. Aborting."
@@ -113,19 +113,29 @@ clean_up_rootfs() {
 }
 
 build_rootfs() {
-  debootstrap --arch=armhf --variant=minbase \
-  --include=net-tools,wireless-tools,wpasupplicant,kmod,udev,openssh-server,iputils-ping,ifupdown,vim-tiny,dhcpcd,ntpdate \
-  wheezy ./rootfs http://http.debian.net/debian/
+  if [ -f rootfs-fresh-backup.tar.xz ]; then
+    echo "Found fresh rootfs backup. Unpacking."
+    xzcat rootfs-fresh-backup.tar.xz | tar x rootfs/
+  else
+    qemu-debootstrap --arch=armhf --variant=minbase \
+    --include=net-tools,wireless-tools,wpasupplicant,kmod,udev,openssh-server,iputils-ping,ifupdown,vim-tiny,dhcpcd,ntpdate \
+    wheezy ./rootfs http://archive.debian.org/debian/
 
-  if [ $? -ne 0 ] ; then
-    echo
-    echo "Error: Debootstrap seems to have failed. Aborting."
-    exit 1
+    if [ $? -ne 0 ] ; then
+      echo
+      echo "Error: Debootstrap seems to have failed. Aborting."
+      exit 1
+    fi
+
+    tar --create rootfs/* | xz > rootfs-fresh-backup.tar.xz
   fi
   
   config_rootfs
   install_packages
   clean_up_rootfs
+
+  # uncomment to also create release tarball
+  #tar --create rootfs/* | xz > okreader-rootfs-release-$(date --iso-8601=seconds).tar.xz
 }
 
 dep_check=true
