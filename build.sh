@@ -156,17 +156,26 @@ compile_firmware_okreader() {
 compile_koreader() {
   cd src/koreader
 
-  # Remove previous builds
-  rm *.targz *.tar.gz *.zip
+  # I'm unable to make koreader building work on x86/amd64
+  ## Remove previous builds
+  #rm *.targz *.tar.gz *.zip
+  #
+  #make fetchthirdparty
+  #make TARGET=kobo koboupdate
 
-  make fetchthirdparty
-  make TARGET=kobo koboupdate
+  # so I'm going to fetch most recent official koreader build that works without additional changes
+  export KOREADER_FILENAME=koreader-kobo-arm-kobo-linux-gnueabihf-v2019.02.zip
+  if [ ! -f $KOREADER_FILENAME ]; then
+      echo "Koreader release not found, downloading."
+      curl --remote-name --location \
+        https://github.com/koreader/koreader/releases/download/v2019.02/$KOREADER_FILENAME
+  fi
 
   cd ../koreader-pkg
   rm -Rf opt
   mkdir opt
   cd opt
-  tar xf ../../koreader/koreader-kobo-arm-linux-gnueabihf*.targz
+  unzip ../../koreader/$KOREADER_FILENAME
 
   cp ../../../files/okreader.sh koreader/
   cp ../../../files/disable-wifi.sh koreader/

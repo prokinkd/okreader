@@ -88,7 +88,7 @@ install_packages() {
   cp src/linux-okreader-modules-imx5_2.6.35.3-1_armhf.deb rootfs/
   cp src/linux-okreader-modules-imx6_3.0.35-1_armhf.deb rootfs/
   cp src/firmware-okreader_1.0-2_armhf.deb rootfs/
-  cp src/koreader_2018.06-1_armhf.deb rootfs/
+  cp src/koreader_2019.02_armhf.deb rootfs/
   cp src/kobo_hwconfig/kobo-hwconfig_1.0-1_armhf.deb rootfs/
 
   chroot rootfs/ bash -c "dpkg -i /*.deb"

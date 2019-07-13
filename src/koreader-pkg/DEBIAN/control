@@ -1,5 +1,5 @@
 Package: koreader
-Version: 2018.06-1
-Maintainer: Cosmin Gorgovan <okreader@linux-geek.org>
+Version: 2019.02
+Maintainer: Kirill Prokin <prokinkd@protonmail.com>
 Architecture: armhf
 Description: An ebook viewer application.
