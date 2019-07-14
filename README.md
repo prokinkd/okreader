@@ -106,6 +106,7 @@ Important: The internal micro SD / eMMC stores configuration information unique 
 
 Some Kobo ereaders (as far as I know, Touch, Glo and some Aura revisions) store their firmware and data on internal removable microSD cards. On these devices, it is recommended to replace the internal microSD card with one containing okreader. Other ereaders store their firmware on an eMMC chip soldered to the PCB. On these devices, it is recommended to boot okreader from the external microSD slot, leaving the official firmware on the internal storage unmodified.
 
+WARNING: You need to create a new directory `mnt/external/dict` on your device for dictionaries to work. It is required because dictionary storage location on rootfs is linked here.
 
 Installation on the internal microSD
 -----------------------------------

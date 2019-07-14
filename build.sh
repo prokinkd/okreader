@@ -194,6 +194,11 @@ compile_koreader() {
   echo "ntpdate pool.ntp.org" > koreader/bin/ntpd
   chmod +x koreader/bin/ntpd
 
+  # link dictionary storage to data partition
+  rm -rf koreader/data/dict
+  ln -s -T /mnt/external/dict koreader/data/dict
+  echo "WARNING You need to create a new directory 'mnt/external/dict' on device for dictionaries to work"
+
   cd ../../
   dpkg-deb -Z gzip -b koreader-pkg .
   cd ../

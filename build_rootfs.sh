@@ -118,7 +118,7 @@ build_rootfs() {
     xzcat rootfs-fresh-backup.tar.xz | tar x rootfs/
   else
     qemu-debootstrap --arch=armhf --variant=minbase \
-    --include=net-tools,wireless-tools,wpasupplicant,kmod,udev,openssh-server,iputils-ping,ifupdown,vim-tiny,dhcpcd,ntpdate \
+    --include=net-tools,wireless-tools,wpasupplicant,kmod,udev,openssh-server,iputils-ping,ifupdown,vim-tiny,dhcpcd,ntpdate,libglib2.0-0 \
     wheezy ./rootfs http://archive.debian.org/debian/
 
     if [ $? -ne 0 ] ; then
