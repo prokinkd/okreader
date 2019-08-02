@@ -153,6 +153,8 @@ Booting from the external microSD card
 * Insert the external microSD card in the ereader and boot it up.
 
 * Get a shell on the device, either via Telnet, SSH or some sort of terminal emulator.
+You can use, for example, https://github.com/S-trace/kobo-aura-remote to gain SSH access.
+Note that you'll need to pass `-oKexAlgorithms=+diffie-hellman-group1-sha1` option to `ssh` when connecting to the device from recent distros, because, apparently, `kobo-aura-remote` provides dated binaries with weak algoritms by default.
 
 * On the ereader shell, mount the rootfs as read only and clone the internal memory into the external microSD card:
 
@@ -161,6 +163,7 @@ umount /mnt/onboard
 mount -o remount,ro /
 dd if=/dev/mmcblk0 of=/dev/mmcblk1
 ```
+Note: Device might disconnect from Wi-Fi regardless of timeout settings. It will cause SSH shell to freeze and not respond, but will not affect the copy progress. Reconnecting to Wi-Fi, or switching Wi-Fi on/off will restore SSH connecton.
 
 * Remount the filesystems with their default options:
 
