@@ -135,7 +135,7 @@ build_rootfs() {
   clean_up_rootfs
 
   # uncomment to also create release tarball
-  #tar --create rootfs/* | xz > okreader-rootfs-release-$(date --iso-8601=seconds).tar.xz
+  # tar --create rootfs/* | xz > okreader-rootfs-release-$(date --iso-8601=seconds).tar.xz
 }
 
 dep_check=true

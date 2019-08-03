@@ -18,10 +18,12 @@ This project is at a very early stage. Lack of the following features could be a
 Supported hardware
 ------------------
 
-I'm testing okreader on:
+This project was tested on:
+
 * Kobo Touch
 * Kobo Mini
 * Kobo Aura
+* Kobo Glo
 * Kobo Glo HD
 
 okreader is also expected to work on other Kobo devices using the i.MX507 or i.MX6 SoCs, but some additional u-boot and/or kernel patches might be needed (see [this](https://github.com/kobolabs/Kobo-Reader/tree/master/hw) repository). okreader commit #1e7825eb has been confirmed by @dtamas to also work on Kobo Glo. Support for newer devices might be added at a later time. If anyone wants to test / lend or donate any of the untested or unsupported devices, please get in touch at okreader at linux-geek dot org. Also see [this thread](https://github.com/lgeek/okreader/issues/6) for a short description of the steps involved in getting okreader running on an unsupported Kobo device.
@@ -32,7 +34,7 @@ Comparison of Kobo ereaders:
 
 Device           | eReader | Wi-Fi   | Touch      | Mini       | Glo         | Aura        | Aura HD        | Aura H2O       | Glo HD       | Touch 2.0   | Aura One       | Aura Edition 2 |
 -----------------|---------|---------|------------|------------|-------------|-------------|----------------|----------------|--------------|-------------|----------------|----------------|
-okreader support | no      | no      | yes        | yes        | yes*        | yes         | kernel upg?    | kernel upg?    | yes          | no          | no             | no             |
+okreader support | no      | no      | yes        | yes        | yes        | yes         | kernel upg?    | kernel upg?    | yes          | no          | no             | no             |
 touchscreen      | no      | no      | yes        | yes        | yes         | yes         | yes            | yes            | yes          | yes         | yes            | yes            |
 frontlight       | no      | no      | no         | no         | yes         | yes         | yes            | yes            | yes          | no          | yes            | yes            |
 WiFi             | no      | yes     | yes        | yes        | yes         | yes         | yes            | yes            | yes          | yes         | yes            | yes            |
@@ -40,158 +42,26 @@ screen           | 6"      | 6"      | 6" 800x600 | 5" 800x600 | 6" 1024x768 | 6
 SoC              | i.MX357 | i.MX357 | i.MX507    | i.MX507    | i.MX507     | i.MX507     | i.MX507        | i.MX507        | i.MX6 Solo   | i.MX6 Solo? | ?              | i.MX6 Solo Lite|
 is current model | no      | no      | no         | no         | no          | no          | no             | yes            | yes          | yes         | yes            | yes            |
 
-\* [commit #1e7825eb tested by @dtamas](https://github.com/lgeek/okreader/issues/1#issuecomment-285626745)
-
 Apart from these specs, the contrast and the ghosting of the electronic ink display also tend to get better in newer models. However, even old models tend to be quite usable. I find a Kobo Touch perfectly readable in moderate to strong ambiental light and a Kobo Aura readable with the frontlight off in strong light or with the frontlight on in dark to moderately lit environments.
 
 If you're looking to buy an ereader for use with okreader, I'd recommend getting a Kobo Touch (£10-£30 used on eBay) if you don't need a frontlight or a Kobo Glo (not tested at the moment) or Aura otherwise.
 
 
-Usage
+Build
 -----
 
-Note: The build system is intended to run on Debian or Ubuntu. Cross-compilation is implemented for packages building and `qemu-debootstrap` is used for rootfs creation.
-
-Install prerequisites:
-
-    sudo apt-get update
-    sudo apt-get install git build-essential libtool autoconf cmake luarocks zlib1g-dev libffi-dev gettext wget hashalot u-boot-tools debootstrap curl coreutils xz-utils gcc-arm-none-eabi qemu-user-static debian-archive-keyring
-
-Fetch all resources:
-
-    git clone git@github.com:prokinkd/okreader.git
-
-or
-
-    git clone https://github.com/prokinkd/okreader.git
-
-    cd okreader
-
-Warning: If you are not authenticated to GitHub with your git setup, you will need to replace `git@github.com:` occurences with `https://github.com/` in `.gitmodules` file before working with submodules.
-
-    git submodule init
-    git submodule update
-    ./fetch.sh all
-
-Build all packages:
-
-    ./build.sh all
-    
-Note, koreader dependecies require autoconf >= 2.65. You might have to manually specify an autoconf version, for example:
-
-    AUTOCONF=autoconf2.65 ./build.sh all
-
-Build artifacts:
-
-    src/u-boot/u-boot.bin                       # U-Boot (bootloader) image (imx5-based devices)
-    src/linux/arch/arm/boot/uImage              # Linux kernel image (imx5-based devices)
-    src/linux-imx6/arch/arm/boot/uImage         # Linux kernel image (imx6-based devices)
-    src/linux-okreader-modules-imx5_*_armhf.deb # Linux kernel modules (imx5-based devices)
-    src/linux-okreader-modules-imx6_*_armhf.deb # Linux kernel modules (imx6-based devices)
-    src/firmware-okreader*_armhf.deb            # WiFi firmware (all devices)
-    src/koreader_*_armhf.deb                    # koreader (all devices)
-    src/kobo_hwconfig/kobo-hwconfig_*_armhf.deb # GPL implementation of kobo_hwconfig (all devices)
-
-Prepare a Debian rootfs (including the .deb packages previously built):
-
-    sudo ./build_rootfs.sh
+See BUILD.md
 
 
-Installation on the device
---------------------------
+Install
+-------
 
-WARNING: At this point, okreader has only been tested on 3(!) different devices. Only install it if you know what you're doing. You could brick your ereader and in some countries you might void your warranty.
+See INSTALL.md
 
-Important: The internal micro SD / eMMC stores configuration information unique to each hardware unit and firmware files which might not be available elsewhere. Therefore, it is essential to backup the first 15 MiB of the internal storage at the very least. I strongly recommend backing up the entire internal storage.
+Use
+---
 
-Some Kobo ereaders (as far as I know, Touch, Glo and some Aura revisions) store their firmware and data on internal removable microSD cards. On these devices, it is recommended to replace the internal microSD card with one containing okreader. Other ereaders store their firmware on an eMMC chip soldered to the PCB. On these devices, it is recommended to boot okreader from the external microSD slot, leaving the official firmware on the internal storage unmodified.
-
-WARNING: You need to create a new directory `mnt/external/dict` on your device for dictionaries to work. It is required because dictionary storage location on rootfs is linked here.
-
-Installation on the internal microSD
------------------------------------
-
-* Fully power off your device.
-* Find a guide on how to open up the case of your particular ereader and follow it. Most are simply retained by plastic clips, so they're easy to open up using a spudger, a plastic card or a guitar pick.
-* Locate the internal microSD card and remove it.
-* Using a computer with an SD card reader, fully backup the factory SD. For example, on a GNU/Linux computer, assuming the SD card is at /dev/mmcblk0 (replace as needed):
-
-```
-dd if=/dev/mmcblk0 of=<PATH_TO_BACKUP_FILE>
-```
-
-* Delete the recovery partition (partition 2) and extended (using cfdisk, fdisk, parted, etc) the main system partition (partition 1) in the free space between partitions 1 and 3. It is essential to leave the first 15 MiB free before the first partition, which are used for U-Boot, the kernel, configuration information and display firmware. The system partition should have id 1 and the data partition should have id 3.
-
-* Write U-Boot and the Linux image to the disk (assuming the SD card is at */dev/mmcblk0*:
-
-```
-sudo dd if=src/u-boot/u-boot.bin of=/dev/mmcblk0 bs=1024 skip=1 seek=1
-sudo dd if=src/linux/arch/arm/boot/uImage of=/dev/mmcblk0 bs=1024 seek=1024
-```
-
-* Format the system partition:
-
-```
-sudo mkfs.ext4 /dev/mmcblk0p1
-```
-
-* Copy okreader's rootfs to the SD card:
-
-```
-sudo mount /dev/mmcblk0p1 /mnt/
-sudo cp -Rp rootfs/* /mnt/
-sudo umount /dev/mmcblk0p1
-sync
-```
-
-* Move the SD card to the ereader and boot it up.
-
-
-Booting from the external microSD card
---------------------------------------
-
-* Insert the external microSD card in the ereader and boot it up.
-
-* Get a shell on the device, either via Telnet, SSH or some sort of terminal emulator.
-
-* On the ereader shell, mount the rootfs as read only and clone the internal memory into the external microSD card:
-
-```
-umount /mnt/onboard
-mount -o remount,ro /
-dd if=/dev/mmcblk0 of=/dev/mmcblk1
-```
-
-* Remount the filesystems with their default options:
-
-```
-mount -o remount,rw /
-mount -t vfat -o noatime,nodiratime,shortname=mixed,utf8 /dev/mmcblk0p3 /mnt/onboard
-```
-
-* Remove the microSD card from the ereader and insert it into a computer with a microSD card reader.
-
-* Extract the hardware configuration block from the microSD card. For example, on a GNU/Linux computer, assuming the SD card is at /dev/mmcblk0 (replace as needed):
-
-```
-dd bs=512 skip=1024 count=1 if=/dev/mmcblk0 of=ereader.hwconfig
-```
-
-* Use a hex editor to change the byte at offset 0x3F (63) from 0 to 1:
-
-```
-printf '\x01' | dd of=ereader.hwconfig bs=1 seek=63 count=1 conv=notrunc
-```
-
-* Write it back to the microSD card
-
-```
-dd if=ereader.hwconfig bs=512 seek=1024 of=/dev/mmcblk0
-```
-
-* Proceed with the installation as documented in **Installation on the internal microSD**.
-
-* Hold down the power and backlight buttons while booting until the LED is blinking to boot from the external microSD card.
+See USAGE.md
 
 
 Notes for developers
